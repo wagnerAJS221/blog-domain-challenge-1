@@ -17,14 +17,45 @@ model User {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   email       String    @unique
+  profile     Profile? 
+  posts        Post[]   
+  comments    Comment[]
 }
 
-model profile {
+
+model Profile {
   id        Int         @id @default(autoincrement())
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   profilePic String      
   profileBio String     @db.VarChar(120)
+  userId   Int         @unique
+  user      User        @relation(fields: [userId], references: [id])
+  
 }
+
+model Post {
+  id            Int         @id @default(autoincrement())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  userId        Int
+  postContent   String      
+  user      User?           @relation(fields: [userId], references: [id])
+  published     Boolean     @default(false)
+  comments      Comment[]
+}
+
+
+model Comment {
+   id                 Int         @id @default(autoincrement())
+   createdAt          DateTime    @default(now())
+   updatedAt          DateTime    @updatedAt  
+   userId             Int
+   commentContents    String
+   post      Post?                 @relation(fields: [id], references: [id])
+   user      User?                @relation(fields: [userId], references: [id])
+}
+
+
 
 
