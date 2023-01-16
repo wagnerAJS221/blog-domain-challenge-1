@@ -13,13 +13,18 @@ datasource db {
 
 model User {
   id          Int       @id @default(autoincrement())
-  username    String    
+  username    String    @unique @db.VarChar(10)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  email       String    @unique
 }
 
-model username{
-  id            Int    @id @default(autoincrement())
-  createdAt     DateTime  
-  updatedAt     DateTime
+model profile {
+  id        Int         @id @default(autoincrement())
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  profilePic String      
+  profileBio String     @db.VarChar(120)
 }
+
+
